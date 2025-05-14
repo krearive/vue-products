@@ -26,3 +26,7 @@
   --shadow-amber: 3px 3px 0px 0px var(--color-amber-300);
   --shadow-black: 3px 3px 0px 0px var(--color-black);
 }
+
+body {
+  scroll-behavior: smooth;
+}
