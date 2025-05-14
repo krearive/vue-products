@@ -1,11 +1,16 @@
 <script setup>
 import { ref, computed, onMounted } from "vue";
 import ProductCard from "./components/ProductCard.vue";
+import { calculateDiscount } from "./utils/discount";
 
 const products = ref([])
 const search = ref("")
 const cart = ref([])
 const category = ref("all")
+
+const totalAmount = ref(0)
+const isMember = ref(false)
+const promoCode = ref("")
 
 onMounted(async () => {
   const response = await fetch("https://fakestoreapi.com/products");
@@ -27,6 +32,21 @@ function addToCart(product) {
   } else {
     cart.value.push({ ...product, quantity: 1 });
   }
+}
+
+const discountResult = computed(() => {
+  return calculateDiscount(
+    totalAmount.value,
+    isMember.value,
+    promoCode.value
+  );
+});
+
+function formatCurrency(value) {
+  return new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+  }).format(value);
 }
 </script>
 
@@ -80,6 +100,51 @@ function addToCart(product) {
           <ProductCard v-for="product in filteredProducts" :key="product.id" :product="product"
             @add-to-cart="addToCart" />
         </div>
+
+        <!-- Discount -->
+        <section class="mt-4 border-t-2">
+          <div class="flex flex-col lg:flex-row justify-between">
+            <div class="flex-7/12 p-4">
+              <h2 class="text-lg font-semibold mb-2">Discount Simulation</h2>
+
+              <div class="space-y-2">
+                <label for="totalAmount" class="text-sm">Total Amount</label>
+                <input type="number" v-model.number="totalAmount" placeholder="Enter total amount"
+                  class="border-b-2 p-2 w-full focus:outline focus:shadow-(--shadow-black)" />
+              </div>
+
+              <label for="isMember" class="flex flex-col items-start mt-4">
+                <div class="flex items-center">
+                  <span class="text-sm">Are you a member?</span>
+                  <span class="text-sm text-gray-500 ml-2">(Check to apply member discount)</span>
+                </div>
+                <div class="flex items-center pl-2">
+                  <input type="checkbox" v-model="isMember" id="isMember"
+                    class="mr-2 checked:shadow-(--shadow-black)" />
+                  <span>Yes, I'm a member</span>
+                </div>
+              </label>
+
+              <div class="space-y-2 mt-4">
+                <label for="promoCode" class="text-sm">Promo Code (Optional)</label>
+                <input type="text" v-model="promoCode" placeholder="Enter promo code (optional)"
+                  class="border-b-2 p-2 w-full focus:outline focus:shadow-(--shadow-black)" />
+              </div>
+            </div>
+
+            <div class="flex-1 lg:ml-2 lg:border-l p-4">
+              <div v-if="discountResult" class="">
+                <h3 class="text-lg font-semibold">Discount Result</h3>
+                <p class="text-sm">Total Amount: {{ formatCurrency(totalAmount) }}</p>
+                <p class="text-sm">Member Discount: {{ isMember ? "Yes" : "No" }}</p>
+                <p class="text-sm">Promo Code: {{ promoCode || "None" }}</p>
+                <p class="text-sm">Discount Percent: {{ discountResult.discount }}%</p>
+                <hr class="my-2" />
+                <p class="text-sm">Final Amount: {{ formatCurrency(discountResult.finalTotal) }}</p>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
       <!-- End Content -->
 
