@@ -1,1 +1,28 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
 @import "tailwindcss";
+
+@theme {
+  --font-inter: "Inter", sans-serif;
+
+  /* color neobrutalism using tailwindcss color */
+  --shadow-cyan: 3px 3px 0px 0px var(--color-cyan-300);
+  --shadow-blue: 3px 3px 0px 0px var(--color-blue-300);
+  --shadow-purple: 3px 3px 0px 0px var(--color-purple-300);
+  --shadow-pink: 3px 3px 0px 0px var(--color-pink-300);
+  --shadow-red: 3px 3px 0px 0px var(--color-red-300);
+  --shadow-orange: 3px 3px 0px 0px var(--color-orange-300);
+  --shadow-yellow: 3px 3px 0px 0px var(--color-yellow-300);
+  --shadow-green: 3px 3px 0px 0px var(--color-green-300);
+  --shadow-gray: 3px 3px 0px 0px var(--color-gray-300);
+  --shadow-slate: 3px 3px 0px 0px var(--color-slate-300);
+  --shadow-zinc: 3px 3px 0px 0px var(--color-zinc-300);
+  --shadow-neutral: 3px 3px 0px 0px var(--color-neutral-300);
+  --shadow-stone: 3px 3px 0px 0px var(--color-stone-300);
+  --shadow-rose: 3px 3px 0px 0px var(--color-rose-300);
+  --shadow-emerald: 3px 3px 0px 0px var(--color-emerald-300);
+  --shadow-teal: 3px 3px 0px 0px var(--color-teal-300);
+  --shadow-lime: 3px 3px 0px 0px var(--color-lime-300);
+  --shadow-amber: 3px 3px 0px 0px var(--color-amber-300);
+  --shadow-black: 3px 3px 0px 0px var(--color-black);
+}
